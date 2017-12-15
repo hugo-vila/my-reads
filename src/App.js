@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import logo from './icons/logo.svg';
 import './App.css';
 
-import ListBooks from './ListBooks';
 import * as BooksAPI from './BooksAPI';
+import ListBooks from './ListBooks';
+
 
 
 
@@ -11,8 +12,13 @@ import * as BooksAPI from './BooksAPI';
 class App extends Component {
 
   state = {
-    books: []
-  }
+    books: [],
+    booksShelf: {
+      currentlyReading: "Currently Reading",
+      wantToRead: "Want to Read",
+      read: "Read"
+    }
+  };
 
 
   componentDidMount() {
@@ -22,16 +28,22 @@ class App extends Component {
     })
   }
 
-  changeShelf = (book, index, shelf) => {
-    let updatedBooks = this.state.books.slice();
-    updatedBooks[index].shelf = shelf;
+  changeShelf = (book, shelf) => {
+
+    let remainingBooks = this.state.books.filter((b) => {
+      return b.id !== book.id;
+    });
+
+    book.shelf = shelf;
+
+    let updatedBooks = remainingBooks.concat(book);
 
     this.setState((state) => ({
       books: updatedBooks
     }));
 
     BooksAPI.update(book, shelf);
-  }
+  };
 
 
   render() {
@@ -46,13 +58,14 @@ class App extends Component {
           <ListBooks
             className="list-books-content"
             books={this.state.books}
+            booksShelf={this.state.booksShelf}
             onChangeShelf={this.changeShelf}
           />
         </div>
       </div>
     );
   }
-}
+};
 
 
 export default App;

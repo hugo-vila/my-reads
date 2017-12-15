@@ -1,23 +1,29 @@
-import React from 'react'
+import React from 'react';
 import PropTypes from 'prop-types';
 
 
 class ListBooks extends React.Component {
 
-
+  static propTypes = {
+    books: PropTypes.array.isRequired,
+    booksShelf: PropTypes.object.isRequired,
+    onChangeShelf: PropTypes.func.isRequired
+  };
 
   render() {
 
     return (
-      <div>
+      <div className="list-books">
 
-        <div className="bookshelf">
-          <h2 className="bookshelf-title">Currently Reading</h2>
+        {Object.entries(this.props.booksShelf).map((shelf) => (
+
+        <div className="bookshelf" key={shelf[0]}>
+          <h2 className="bookshelf-title">{shelf[1]}</h2>
           <div className="bookshelf-books">
 
             <ol className="books-grid">
 
-              {this.props.books.map((book, index) => (
+              {this.props.books.filter(book => book.shelf.toString() === shelf[0].toString()).map((book) => (
                 <li key={book.id}>
                   <div className="book">
                     <div className="book-top">
@@ -29,7 +35,7 @@ class ListBooks extends React.Component {
 
 
                         <div className="book-shelf-changer">
-                          <select value={book.shelf} onChange={(event) => this.props.onChangeShelf(book, index, event.target.value)}>
+                          <select value={book.shelf} onChange={(event) => this.props.onChangeShelf(book, event.target.value)}>
                             <option value="none" disabled>Move to...</option>
 
                               <option value="currentlyReading">Currently Reading</option>
@@ -38,8 +44,6 @@ class ListBooks extends React.Component {
 
                               <option value="read">Read</option>
 
-                              <option value="none">None</option>
-
                           </select>
                         </div>
 
@@ -47,9 +51,11 @@ class ListBooks extends React.Component {
 
 
                       <div className="book-title">{book.title}</div>
-                      <div className="book-authors">{book.authors[0]}</div>
+                      {book.authors.map((author) => (
+                        <div className="book-authors" key={author}>{author}</div>
+                      ))}
                     </div>
-                  
+
                 </li>
               ))}
 
@@ -58,14 +64,11 @@ class ListBooks extends React.Component {
           </div>
         </div>
 
+      ))}
+
       </div>
     )
   }
 }
 
-ListBooks.propTypes = {
-  books: PropTypes.array.isRequired,
-  onChangeShelf: PropTypes.func.isRequired
-}
-
-export default ListBooks
+export default ListBooks;
