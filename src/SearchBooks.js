@@ -34,7 +34,9 @@ class SearchBooks extends React.Component {
     if (query) {
       const match = new RegExp(escapeRegExp(query), 'i');
       searchBooksResult = books.filter((book) => {
-        return match.test(book.title);
+        return match.test(book.title) || book.authors.some((author) => {
+          return match.test(author);
+        })
       });
     }
 
