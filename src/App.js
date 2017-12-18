@@ -52,19 +52,19 @@ class App extends Component {
       <div className="app">
         <div className="list-books">
 
-
           <Route exact path="/" render={() => [
-            <header className="list-books-title">
+            <header className="list-books-title" key="list-books-title">
               <img src={logo} className="App-logo" alt="logo" />
               <h1>MyReads</h1>
             </header>,
             <ListBooks
+              key="list-books"
               className="list-books-content"
               books={this.state.books}
               booksShelf={this.state.booksShelf}
               onChangeShelf={this.changeShelf}
             />,
-            <div className="open-search"><Link to="/search">Search books</Link></div>
+            <div className="open-search" key="open-search"><Link to="/search">Search books</Link></div>
           ]}/>
 
           <Route path="/search" render={() => (
