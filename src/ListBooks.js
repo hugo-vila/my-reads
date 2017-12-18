@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import sortBy from 'sort-by';
 
 
 class ListBooks extends React.Component {
@@ -12,6 +13,8 @@ class ListBooks extends React.Component {
 
   render() {
 
+
+
     return (
       <div className="list-books">
 
@@ -23,7 +26,7 @@ class ListBooks extends React.Component {
 
             <ol className="books-grid">
 
-              {this.props.books.filter(book => book.shelf.toString() === shelf[0].toString()).map((book) => (
+              {this.props.books.sort(sortBy('title')).filter(book => book.shelf.toString() === shelf[0].toString()).map((book) => (
                 <li key={book.id}>
                   <div className="book">
                     <div className="book-top">

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import escapeRegExp from 'escape-string-regexp';
+import sortBy from 'sort-by';
 
 
 class SearchBooks extends React.Component {
@@ -26,6 +27,7 @@ class SearchBooks extends React.Component {
   render() {
 
     let searchBooksResult = [];
+
     if (this.state.query) {
       const match = new RegExp(escapeRegExp(this.state.query), 'i');
       searchBooksResult = this.props.books.filter((book) => {
@@ -33,6 +35,7 @@ class SearchBooks extends React.Component {
       });
     }
 
+    searchBooksResult.sort(sortBy('title'));
 
     return (
 
