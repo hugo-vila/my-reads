@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import escapeRegExp from 'escape-string-regexp';
 
 
 class SearchBooks extends React.Component {
@@ -26,14 +27,12 @@ class SearchBooks extends React.Component {
 
     let searchBooksResult = [];
     if (this.state.query) {
-      const match = new RegExp(this.state.query, 'i');
-      console.log(match);
+      const match = new RegExp(escapeRegExp(this.state.query), 'i');
       searchBooksResult = this.props.books.filter((book) => {
         return match.test(book.title);
       });
     }
 
-    console.log(searchBooksResult);
 
     return (
 
