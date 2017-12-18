@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import { Route, Link } from 'react-router-dom';
 import logo from './icons/logo.svg';
 import './App.css';
 
 import * as BooksAPI from './BooksAPI';
 import ListBooks from './ListBooks';
-
-
+import SearchBooks from './SearchBooks';
 
 
 
@@ -51,16 +51,28 @@ class App extends Component {
     return (
       <div className="app">
         <div className="list-books">
-          <header className="list-books-title">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h1>MyReads</h1>
-          </header>
-          <ListBooks
-            className="list-books-content"
-            books={this.state.books}
-            booksShelf={this.state.booksShelf}
-            onChangeShelf={this.changeShelf}
-          />
+
+
+          <Route exact path="/" render={() => [
+            <header className="list-books-title">
+              <img src={logo} className="App-logo" alt="logo" />
+              <h1>MyReads</h1>
+            </header>,
+            <ListBooks
+              className="list-books-content"
+              books={this.state.books}
+              booksShelf={this.state.booksShelf}
+              onChangeShelf={this.changeShelf}
+            />,
+            <div className="open-search"><Link to="/search">Search books</Link></div>
+          ]}/>
+
+          <Route path="/search" render={() => (
+            <SearchBooks
+              books={this.state.books}
+              onChangeShelf={this.changeShelf}
+            />
+          )}/>
         </div>
       </div>
     );

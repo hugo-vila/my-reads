@@ -27,7 +27,67 @@
   to { transform: rotate(360deg); }
 }
 
+/* *********************************************
+** Nav bar top                         **
+********************************************* */
 
+.nav-bar {
+  padding: 20px;
+  border-bottom: 1px solid #d5d8df;
+}
+
+.nav-bar ul {
+  height: 100%;
+  margin: 0 0 16px -20px;
+}
+
+.nav-bar li {
+  margin: 0;
+  float: left;
+  padding: 0 20px 0 20px;
+  display: block;
+  border-right: 1px solid #d5d8df;
+}
+
+/* *********************************************
+** Search Query top                         **
+********************************************* */
+
+.search-books-top {
+  /* position: fixed; */
+  width: 100%;
+  top: 0;
+  border-bottom: 1px solid #d5d8df;
+  display: flex;
+}
+
+.search-books {
+  padding: 20px 20px 20px 60px;
+  background-image: url('./icons/search.svg');
+  background-repeat: no-repeat;
+  background-position: 20px center;
+  background-size: 1.2em;
+  font-size: 1.2em;
+  border: 0;
+  outline: none;
+}
+/* *********************************************
+** Clear Query button                         **
+********************************************* */
+
+.remove-query {
+  display: block;
+  width: 73px;
+  background: white;
+  background-image: url('./icons/cancel.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 28px;
+  font-size: 0;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+}
 
 /* *********************************************
 ** App.css from react-project-myreads-starter **
@@ -89,7 +149,7 @@ body, .app {
   height: 50px;
   border-radius: 50%;
   background: #2e7d32;
-  background-image: url('./icons/add.svg');
+  background-image: url('./icons/search-white.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 28px;
@@ -125,7 +185,7 @@ body, .app {
   top: 20px;
   left: 15px;
   width: 50px;
-  height: 53px;
+  height: 57px; /* 53px; */
   background: white;
   background-image: url('./icons/arrow-back.svg');
   background-position: center;
