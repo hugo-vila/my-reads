@@ -24,7 +24,6 @@ class App extends Component {
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
-      console.log(this.state)
     })
   }
 
@@ -48,6 +47,9 @@ class App extends Component {
 
   render() {
 
+    const {booksShelf, books} = this.state;
+    const {changeShelf} = this;
+
     return (
       <div className="app">
         <div className="list-books">
@@ -60,17 +62,17 @@ class App extends Component {
             <ListBooks
               key="list-books"
               className="list-books-content"
-              books={this.state.books}
-              booksShelf={this.state.booksShelf}
-              onChangeShelf={this.changeShelf}
+              books={books}
+              booksShelf={booksShelf}
+              onChangeShelf={changeShelf}
             />,
             <div className="open-search" key="open-search"><Link to="/search">Search books</Link></div>
           ]}/>
 
           <Route path="/search" render={() => (
             <SearchBooks
-              books={this.state.books}
-              onChangeShelf={this.changeShelf}
+              books={books}
+              onChangeShelf={changeShelf}
             />
           )}/>
         </div>

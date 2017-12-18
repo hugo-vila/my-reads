@@ -13,12 +13,12 @@ class ListBooks extends React.Component {
 
   render() {
 
-
+    const {onChangeShelf, booksShelf, books} = this.props;
 
     return (
       <div className="list-books">
 
-        {Object.entries(this.props.booksShelf).map((shelf) => (
+        {Object.entries(booksShelf).map((shelf) => (
 
         <div className="bookshelf" key={shelf[0]}>
           <h2 className="bookshelf-title">{shelf[1]}</h2>
@@ -26,7 +26,7 @@ class ListBooks extends React.Component {
 
             <ol className="books-grid">
 
-              {this.props.books.sort(sortBy('title')).filter(book => book.shelf.toString() === shelf[0].toString()).map((book) => (
+              {books.sort(sortBy('title')).filter(book => book.shelf.toString() === shelf[0].toString()).map((book) => (
                 <li key={book.id}>
                   <div className="book">
                     <div className="book-top">
@@ -38,7 +38,7 @@ class ListBooks extends React.Component {
 
 
                         <div className="book-shelf-changer">
-                          <select value={book.shelf} onChange={(event) => this.props.onChangeShelf(book, event.target.value)}>
+                          <select value={book.shelf} onChange={(event) => onChangeShelf(book, event.target.value)}>
                             <option value="none" disabled>Move to...</option>
 
                               <option value="currentlyReading">Currently Reading</option>

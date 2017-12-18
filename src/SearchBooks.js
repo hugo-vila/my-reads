@@ -26,11 +26,14 @@ class SearchBooks extends React.Component {
 
   render() {
 
+    const {query} = this.state;
+    const {onChangeShelf, books} = this.props;
+
     let searchBooksResult = [];
 
-    if (this.state.query) {
-      const match = new RegExp(escapeRegExp(this.state.query), 'i');
-      searchBooksResult = this.props.books.filter((book) => {
+    if (query) {
+      const match = new RegExp(escapeRegExp(query), 'i');
+      searchBooksResult = books.filter((book) => {
         return match.test(book.title);
       });
     }
@@ -46,7 +49,7 @@ class SearchBooks extends React.Component {
             <Link to="/" className="close-search">Close</Link>
             <div className="search-books-input-wrapper">
               <input
-                value={this.state.query}
+                value={query}
                 onChange={(event) => this.updateQuery(event.target.value)}
                 placeholder="Search by title or author"
                 type="text">
@@ -80,7 +83,7 @@ class SearchBooks extends React.Component {
 
 
                       <div className="book-shelf-changer">
-                        <select value={book.shelf} onChange={(event) => this.props.onChangeShelf(book, event.target.value)}>
+                        <select value={book.shelf} onChange={(event) => onChangeShelf(book, event.target.value)}>
                           <option value="none" disabled>Move to...</option>
 
                             <option value="currentlyReading">Currently Reading</option>
