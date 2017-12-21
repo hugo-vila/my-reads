@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import sortBy from 'sort-by';
 
+import missingCoverBook from './icons/missing-cover-book.svg';
 
 class ListBooks extends React.Component {
 
@@ -32,7 +33,7 @@ class ListBooks extends React.Component {
                     <div className="book-top">
 
                       <div className="book-cover" style={{
-                        backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}></div>
+                        backgroundImage: `url(${book.imageLinks.smallThumbnail || missingCoverBook})`}}></div>
 
                         <div className="book-shelf-changer">
                           <select value={book.shelf} onChange={(event) => onChangeShelf(book, event.target.value)}>
