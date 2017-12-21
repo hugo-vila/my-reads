@@ -37,11 +37,12 @@ class App extends Component {
 
     let updatedBooks = remainingBooks.concat(book);
 
-    this.setState((state) => ({
-      books: updatedBooks
-    }));
-
-    BooksAPI.update(book, shelf);
+    BooksAPI.update(book, shelf)
+      .then(
+        this.setState((state) => ({
+          books: updatedBooks
+        }))
+      );
   };
 
 
