@@ -52,9 +52,11 @@ class ListBooks extends React.Component {
 
 
                       <div className="book-title">{book.title}</div>
-                      {book.authors.map((author) => (
-                        <div className="book-authors" key={author}>{author}</div>
-                      ))}
+                      {book.authors.length >= 1 && (
+                        book.authors.map((author) => (
+                          <div className="book-authors" key={author}>{author}</div>
+                        ))
+                      )}
                     </div>
 
                 </li>
