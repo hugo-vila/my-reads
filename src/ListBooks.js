@@ -4,74 +4,69 @@ import sortBy from 'sort-by';
 
 import missingCoverBook from './icons/missing-cover-book.svg';
 
-class ListBooks extends React.Component {
 
-  static propTypes = {
-    books: PropTypes.array.isRequired,
-    booksShelf: PropTypes.object.isRequired,
-    onChangeShelf: PropTypes.func.isRequired
-  };
+const ListBooks = (props) => (
 
-  render() {
+  <div className="list-books">
 
-    const {onChangeShelf, booksShelf, books} = this.props;
+    {Object.entries(props.booksShelf).map((shelf) => (
 
-    return (
-      <div className="list-books">
+      <div className="bookshelf" key={shelf[0]}>
+        <h2 className="bookshelf-title">{shelf[1]}</h2>
+        <div className="bookshelf-books">
 
-        {Object.entries(booksShelf).map((shelf) => (
+          <ol className="books-grid">
 
-        <div className="bookshelf" key={shelf[0]}>
-          <h2 className="bookshelf-title">{shelf[1]}</h2>
-          <div className="bookshelf-books">
+            {props.books.sort(sortBy('title')).filter(book => book.shelf.toString() === shelf[0].toString()).map((book) => (
+              <li key={book.id}>
+                <div className="book">
+                  <div className="book-top">
 
-            <ol className="books-grid">
+                    <div className="book-cover" style={{
+                      backgroundImage: `url(${book.imageLinks.smallThumbnail || missingCoverBook})`}}></div>
 
-              {books.sort(sortBy('title')).filter(book => book.shelf.toString() === shelf[0].toString()).map((book) => (
-                <li key={book.id}>
-                  <div className="book">
-                    <div className="book-top">
+                      <div className="book-shelf-changer">
+                        <select value={book.shelf} onChange={(event) => props.onChangeShelf(book, event.target.value)}>
+                          <option value="none" disabled>Move to...</option>
 
-                      <div className="book-cover" style={{
-                        backgroundImage: `url(${book.imageLinks.smallThumbnail || missingCoverBook})`}}></div>
+                            <option value="currentlyReading">Currently Reading</option>
 
-                        <div className="book-shelf-changer">
-                          <select value={book.shelf} onChange={(event) => onChangeShelf(book, event.target.value)}>
-                            <option value="none" disabled>Move to...</option>
+                            <option value="wantToRead">Want to Read</option>
 
-                              <option value="currentlyReading">Currently Reading</option>
+                            <option value="read">Read</option>
 
-                              <option value="wantToRead">Want to Read</option>
-
-                              <option value="read">Read</option>
-
-                          </select>
-                        </div>
-
+                        </select>
                       </div>
 
-
-                      <div className="book-title">{book.title}</div>
-                      {book.authors.length >= 1 && (
-                        book.authors.map((author) => (
-                          <div className="book-authors" key={author}>{author}</div>
-                        ))
-                      )}
                     </div>
 
-                </li>
-              ))}
 
-            </ol>
+                    <div className="book-title">{book.title}</div>
+                    {book.authors.length >= 1 && (
+                      book.authors.map((author) => (
+                        <div className="book-authors" key={author}>{author}</div>
+                      ))
+                    )}
+                  </div>
 
-          </div>
+              </li>
+            ))}
+
+          </ol>
+
         </div>
-
-      ))}
-
       </div>
-    )
-  }
-}
+
+    ))}
+
+  </div>
+  
+);
+
+ListBooks.propTypes = {
+  books: PropTypes.array.isRequired,
+  booksShelf: PropTypes.object.isRequired,
+  onChangeShelf: PropTypes.func.isRequired
+};
 
 export default ListBooks;
