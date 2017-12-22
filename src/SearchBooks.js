@@ -1,23 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import escapeRegExp from 'escape-string-regexp';
+
+import * as BooksAPI from './BooksAPI';
 import sortBy from 'sort-by';
+
+import BookItem from './BookItem';
 
 
 class SearchBooks extends React.Component {
 
   static propTypes = {
-    books: PropTypes.array.isRequired,
     onChangeShelf: PropTypes.func.isRequired
   };
 
   state =  {
-    query: ''
+    query: '',
+    apiBooks: []
   };
 
-  updateQuery =  (query) => {
-    this.setState({query: query.trim()});
+  updateQuery = (query) => {
+
+    this.setState({
+      query: query.trim()
+    });
+
+    BooksAPI.search(query.trim()).then((apiBooksSearchResults) => {
+     this.setState({apiBooks: apiBooksSearchResults});
+    });
+
   };
 
   clearQuery = () => {
@@ -27,20 +38,16 @@ class SearchBooks extends React.Component {
   render() {
 
     const {query} = this.state;
-    const {onChangeShelf, books} = this.props;
+    const {onChangeShelf} = this.props;
 
     let searchBooksResult = [];
 
-    if (query) {
-      const match = new RegExp(escapeRegExp(query), 'i');
-      searchBooksResult = books.filter((book) => {
-        return match.test(book.title) || book.authors.some((author) => {
-          return match.test(author);
-        })
-      });
+    if (query && Object.prototype.toString.call(this.state.apiBooks) === '[object Array]') {
+      searchBooksResult = this.state.apiBooks;
+      searchBooksResult.sort(sortBy('title'));
+    } else {
+      searchBooksResult = [];
     }
-
-    searchBooksResult.sort(sortBy('title'));
 
     return (
 
@@ -74,39 +81,14 @@ class SearchBooks extends React.Component {
           <ol className="books-grid">
 
             {searchBooksResult.map((book) => (
-              <li key={book.id}>
-                <div className="book">
-                  <div className="book-top">
 
-                    <div className="book-cover" style={{
-                      width: 128,
-                      height: 193,
-                      backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}></div>
+              <BookItem
+                className="book-item"
+                key={book.id}
+                bookitem={book}
+                onChangeShelf={onChangeShelf}
+              />
 
-
-                      <div className="book-shelf-changer">
-                        <select value={book.shelf} onChange={(event) => onChangeShelf(book, event.target.value)}>
-                          <option value="none" disabled>Move to...</option>
-
-                            <option value="currentlyReading">Currently Reading</option>
-
-                            <option value="wantToRead">Want to Read</option>
-
-                            <option value="read">Read</option>
-
-                        </select>
-                      </div>
-
-                    </div>
-
-
-                    <div className="book-title">{book.title}</div>
-                    {book.authors.map((author) => (
-                      <div className="book-authors" key={author}>{author}</div>
-                    ))}
-                  </div>
-
-              </li>
             ))}
 
           </ol>
