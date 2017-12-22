@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import sortBy from 'sort-by';
 
+import missingCoverBook from './icons/missing-cover-book.svg';
 
 
 const ListBooks = (props) => (
@@ -22,7 +23,7 @@ const ListBooks = (props) => (
                   <div className="book-top">
 
                     <div className="book-cover" style={{
-                      backgroundImage: `url(${book.imageLinks.smallThumbnail || missingCoverBook})`}}></div>
+                      backgroundImage: `url(${(book.imageLinks && book.imageLinks.smallThumbnail) || missingCoverBook})`}}></div>
 
                       <div className="book-shelf-changer">
                         <select value={book.shelf} onChange={(event) => props.onChangeShelf(book, event.target.value)}>
