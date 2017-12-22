@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import sortBy from 'sort-by';
 
-import missingCoverBook from './icons/missing-cover-book.svg';
 
 
 const ListBooks = (props) => (
@@ -42,7 +41,7 @@ const ListBooks = (props) => (
 
 
                     <div className="book-title">{book.title}</div>
-                    {book.authors.length >= 1 && (
+                    {(book.authors && book.authors.length >= 1) && (
                       book.authors.map((author) => (
                         <div className="book-authors" key={author}>{author}</div>
                       ))
@@ -60,7 +59,7 @@ const ListBooks = (props) => (
     ))}
 
   </div>
-  
+
 );
 
 ListBooks.propTypes = {
