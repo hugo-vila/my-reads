@@ -12,14 +12,8 @@ import SearchBooks from './SearchBooks';
 class App extends Component {
 
   state = {
-    books: [],
-    booksShelf: {
-      currentlyReading: "Currently Reading",
-      wantToRead: "Want to Read",
-      read: "Read"
-    }
+    books: []
   };
-
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
@@ -48,7 +42,13 @@ class App extends Component {
 
   render() {
 
-    const {booksShelf, books} = this.state;
+    const booksShelf = {
+      currentlyReading: "Currently Reading",
+      wantToRead: "Want to Read",
+      read: "Read"
+    };
+
+    const {books} = this.state;
     const {changeShelf} = this;
 
     return (
