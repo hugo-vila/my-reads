@@ -23,7 +23,7 @@ class SearchBooks extends React.Component {
   updateQuery = (query) => {
 
     this.setState({
-      query: query.trim()
+      query
     });
 
     BooksAPI.search(query.trim()).then((apiBooksSearchResults) => {
