@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 import logo from './icons/logo.svg';
 import './App.css';
 
 import * as BooksAPI from './BooksAPI';
 import ListBooks from './ListBooks';
 import SearchBooks from './SearchBooks';
+import Page404 from './Page404';
 
 
 
@@ -55,27 +56,32 @@ class App extends Component {
       <div className="app">
         <div className="list-books">
 
-          <Route exact path="/" render={() => [
-            <header className="list-books-title" key="list-books-title">
-              <img src={logo} className="App-logo" alt="logo" />
-              <h1>MyReads</h1>
-            </header>,
-            <ListBooks
-              key="list-books"
-              className="list-books-content"
-              books={books}
-              booksShelf={booksShelf}
-              onChangeShelf={changeShelf}
-            />,
-            <div className="open-search" key="open-search"><Link to="/search">Search books</Link></div>
-          ]}/>
+          <Switch>
+            <Route exact path="/" render={() => [
+              <header className="list-books-title" key="list-books-title">
+                <img src={logo} className="App-logo" alt="logo" />
+                <h1>MyReads</h1>
+              </header>,
+              <ListBooks
+                key="list-books"
+                className="list-books-content"
+                books={books}
+                booksShelf={booksShelf}
+                onChangeShelf={changeShelf}
+              />,
+              <div className="open-search" key="open-search"><Link to="/search">Search books</Link></div>
+            ]}/>
 
-          <Route path="/search" render={() => (
-            <SearchBooks
-              onChangeShelf={changeShelf}
-              myReads={books}
-            />
-          )}/>
+            <Route path="/search" render={() => (
+              <SearchBooks
+                onChangeShelf={changeShelf}
+                myReads={books}
+              />
+            )}/>
+
+            <Route loc={this.props.location} component={Page404}/>
+          </Switch>
+
         </div>
       </div>
     );
