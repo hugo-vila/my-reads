@@ -11,7 +11,8 @@ import BookItem from './BookItem';
 class SearchBooks extends React.Component {
 
   static propTypes = {
-    onChangeShelf: PropTypes.func.isRequired
+    onChangeShelf: PropTypes.func.isRequired,
+    myReads: PropTypes.array.isRequired
   };
 
   state =  {
@@ -38,12 +39,22 @@ class SearchBooks extends React.Component {
   render() {
 
     const {query} = this.state;
-    const {onChangeShelf} = this.props;
+    const {onChangeShelf, myReads} = this.props;
 
     let searchBooksResult = [];
 
-    if (query && Object.prototype.toString.call(this.state.apiBooks) === '[object Array]') {
-      searchBooksResult = this.state.apiBooks;
+    if (query.length >= 1 && Object.prototype.toString.call(this.state.apiBooks) === '[object Array]') {
+      let rawSearchBooksResult = this.state.apiBooks;
+
+      searchBooksResult = rawSearchBooksResult.map((rawBook) => {
+
+        let myReadBook = myReads.filter((myBook) => {
+          return myBook.title === rawBook.title && myBook.subtitle === rawBook.subtitle && myBook.publishedDate === rawBook.publishedDate && myBook.publisher === rawBook.publisher; // TODO: incomplete and inexact matching
+        });
+
+        return myReadBook[0] || rawBook;
+      });
+
       searchBooksResult.sort(sortBy('title'));
     } else {
       searchBooksResult = [];
